@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.Resource;
+import javax.servlet.MultipartConfigElement;
 import javax.sql.DataSource;
 
 import org.hibernate.ejb.HibernatePersistence;
+import org.springframework.boot.context.embedded.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -55,6 +57,9 @@ public class Config extends WebMvcConfigurerAdapter {
 	@Resource
 	private Environment env;
 
+	/**
+	 * @return
+	 */
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -70,6 +75,9 @@ public class Config extends WebMvcConfigurerAdapter {
 		return dataSource;
 	}
 
+	/**
+	 * @return
+	 */
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
@@ -85,6 +93,9 @@ public class Config extends WebMvcConfigurerAdapter {
 		return entityManagerFactoryBean;
 	}
 
+	/**
+	 * @return
+	 */
 	private Properties hibProperties() {
 		Properties properties = new Properties();
 		properties.put(PROPERTY_NAME_HIBERNATE_DIALECT,
@@ -94,6 +105,9 @@ public class Config extends WebMvcConfigurerAdapter {
 		return properties;
 	}
 
+	/**
+	 * @return
+	 */
 	@Bean
 	public JpaTransactionManager transactionManager() {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
@@ -138,22 +152,14 @@ public class Config extends WebMvcConfigurerAdapter {
 	
 	*/
 	
+	/**
+	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry)
+	 */
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
-	
-	/**
-	 * @return
-	 */
-	@Bean
-	public UrlBasedViewResolver setupViewResolver() {
-		UrlBasedViewResolver resolver = new UrlBasedViewResolver();
-		resolver.setPrefix("/WEB-INF/views/");
-		resolver.setSuffix(".html");
-		resolver.setViewClass(JstlView.class);
-		return resolver;
-	}
+
 	
 
 }

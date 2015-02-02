@@ -15,11 +15,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -43,14 +46,26 @@ public class VeiculoController extends AbstractController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody List<Veiculo> list() {
-		return veiculoService.list();
+		List<Veiculo> veiculos = veiculoService.list();
+		return veiculos;
+	}
+	
+	/**
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody Veiculo find(@PathVariable Integer id) {
+		Veiculo veiculo = veiculoService.find(id);
+		return veiculo;
 	}
 
 	/**
 	 * @param veiculo
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ResponseEntity<Veiculo> save(@ModelAttribute @Valid Veiculo veiculo,
+	public ResponseEntity<Veiculo> save(@RequestBody @Valid Veiculo veiculo,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			List<FieldError> errors = bindingResult.getFieldErrors();
@@ -74,8 +89,7 @@ public class VeiculoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-	public ResponseEntity<Veiculo> update(@PathVariable Integer id,
-			@ModelAttribute @Valid Veiculo veiculo, BindingResult bindingResult) {
+	public ResponseEntity<Veiculo> update(@RequestBody @Valid Veiculo veiculo, @PathVariable Integer id, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			List<FieldError> errors = bindingResult.getFieldErrors();
 			for (FieldError fieldError : errors) {
@@ -99,7 +113,8 @@ public class VeiculoController extends AbstractController {
 	public ResponseEntity<Map<String, String>> delete(@PathVariable Integer id) {
 		Map<String, String> message = new HashMap<String, String>();
 		try {
-			veiculoService.delete(id);
+			Veiculo veiculo = veiculoService.find(id);
+			veiculoService.delete(veiculo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			message.put("message", "Problemas ao deletar veículo");

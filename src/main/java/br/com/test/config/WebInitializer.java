@@ -1,5 +1,6 @@
 package br.com.test.config;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
@@ -28,6 +29,7 @@ public class WebInitializer implements WebApplicationInitializer {
 		Dynamic servlet = servletContext.addServlet("dispatcher",
 				new DispatcherServlet(ctx));
 		servlet.addMapping("/");
+		//servlet.setMultipartConfig(ctx.getBean(MultipartConfigElement.class));
 		servlet.setLoadOnStartup(1);
 
 	}

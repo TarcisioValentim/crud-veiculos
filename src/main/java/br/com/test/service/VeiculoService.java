@@ -49,8 +49,16 @@ public class VeiculoService {
 	
 	/**
 	 * @param id
+	 * @return
 	 */
-	public void delete(Integer id) {
-		veiculoRepository.delete(id);
+	public Veiculo find(Integer id) {
+		return veiculoRepository.findOne(id);
+	}
+	
+	/**
+	 * @param id
+	 */
+	public void delete(Veiculo veiculo) {
+		veiculoRepository.delete(veiculo);
 	}
 }

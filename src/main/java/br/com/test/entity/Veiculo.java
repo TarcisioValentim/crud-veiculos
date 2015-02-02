@@ -14,9 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import org.springframework.validation.FieldError;
 
+/**
+ * @author Adriano S. Bonfiglio
+ *
+ */
 @Entity
 @Table(name = "veiculo")
 public class Veiculo implements Serializable {
@@ -35,10 +40,13 @@ public class Veiculo implements Serializable {
 	@NotNull(message="fabricante não pode ser nulo")
 	private String fabricante;
 	@Column(name = "modelo", nullable = false, length = 30)
+	@NotNull(message="o modelo não pode ser nulo")
 	private String modelo;
 	@Column(name = "ano", length = 4, nullable = false)
+	@NotNull(message="O ano não pode ser nulo")
 	private Long ano;
-	@Column(name = "foto", length = 45, nullable=false)
+	@Column(name = "foto", length = 45)
+	@Null
 	private String foto;
 	
 	@Transient

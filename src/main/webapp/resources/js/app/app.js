@@ -2,20 +2,23 @@ var app = angular.module("app", ["ngRoute", "controllers"]);
 
 app.config(function($routeProvider) {
 	$routeProvider
-		.when("/perfil", {
-			templateUrl: "/app/views/vendas/partials/_perfil.html",
-			controller:"UsuarioController"
+		.when("/", {
+			templateUrl: "resources/templates/_list.html",
+			controller:"MainController"
 		})
-		.when("/vendas/login", {
-			templateUrl: "/app/views/vendas/login.html",
-			controller: "LoginController"
+		.when("/create", {
+			templateUrl: "resources/templates/_create.html",
+			controller: "VeiculoController"
 		})
-		.when("/vendas", {
-			templateUrl: "/app/views/vendas/index.html",
-			controller: "MainController"
+		.when("/edit/:id", {
+			templateUrl: "resources/templates/_edit.html",
+			controller: "EditVeiculoController"
+		})
+		.when("/delete/:id", {
+			controller: "RemoveController"
 		})
 		.otherwise({
-			templateUrl: "/app/views/body.html",
+			//templateUrl: "/app/views/body.html",
 			controller: "MainController"
 		});
 });
