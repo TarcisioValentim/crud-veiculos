@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +11,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
 import br.com.test.entity.Veiculo;
+import br.com.test.exceptions.BusinessException;
 import br.com.test.service.VeiculoService;
 
 /**
@@ -35,7 +29,7 @@ import br.com.test.service.VeiculoService;
  */
 @RestController
 @RequestMapping(value = "/veiculos")
-public class VeiculoController extends AbstractController {
+public class VeiculoController{
 
 	@Autowired
 	VeiculoService veiculoService;
@@ -65,7 +59,7 @@ public class VeiculoController extends AbstractController {
 	 * @param veiculo
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ResponseEntity<Veiculo> save(@RequestBody @Valid Veiculo veiculo,
+	public ResponseEntity<Veiculo> save(@RequestBody @Valid Veiculo veiculo, 
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			List<FieldError> errors = bindingResult.getFieldErrors();
@@ -77,7 +71,12 @@ public class VeiculoController extends AbstractController {
 			return new ResponseEntity<Veiculo>(veiculo,
 					HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		veiculoService.save(veiculo);
+		try {
+			veiculoService.save(veiculo);
+		} catch (BusinessException e) {
+			return new ResponseEntity<Veiculo>(veiculo,
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		return new ResponseEntity<Veiculo>(veiculo, HttpStatus.CREATED);
 
 	}
@@ -91,16 +90,16 @@ public class VeiculoController extends AbstractController {
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
 	public ResponseEntity<Veiculo> update(@RequestBody @Valid Veiculo veiculo, @PathVariable Integer id, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			List<FieldError> errors = bindingResult.getFieldErrors();
-			for (FieldError fieldError : errors) {
-				System.out.println(fieldError);
-			}
 			veiculo.setErrors(bindingResult.getFieldErrors());
-
 			return new ResponseEntity<Veiculo>(veiculo,
 					HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		veiculoService.update(id, veiculo);
+		try {
+			veiculoService.update(id, veiculo);
+		} catch (BusinessException e) {
+			return new ResponseEntity<Veiculo>(veiculo,
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		return new ResponseEntity<Veiculo>(veiculo, HttpStatus.OK);
 
 	}
@@ -123,13 +122,6 @@ public class VeiculoController extends AbstractController {
 		}
 		message.put("message", "Veículo deletado com sucesso");
 		return new ResponseEntity<Map<String, String>>(message, HttpStatus.OK);
-	}
-
-	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest arg0,
-			HttpServletResponse arg1) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

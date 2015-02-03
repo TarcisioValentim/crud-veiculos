@@ -138,25 +138,27 @@ public class Config extends WebMvcConfigurerAdapter {
 		return resolver;
 	}
 	
+	*/
 	
-	@Bean(name="htmlViewResolver")
-	public ViewResolver getHtmlViewResolver() {
+	@Bean(name="jspViewResolver")
+	public ViewResolver getJspViewResolver() {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setPrefix("/WEB-INF/views/");
-		resolver.setSuffix(".html");
+		resolver.setSuffix(".jsp");
 		resolver.setOrder(2);
 		resolver.setViewClass(JstlView.class);
 		return resolver;
 	}
 	
 	
-	*/
+	
 	
 	/**
 	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry)
 	 */
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/images/**").addResourceLocations("/images/");
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 

@@ -1,34 +1,41 @@
 
 <h1>Editar veículo</h1>
 
+<a href="#" class="btn btn-primary">Ir para Listagem</a>
+
 <form ng-submit="update()" class="form-horizontal" id="formVeiculos">
 	<input type="hidden" value="{{veiculo.id}}" ng-model="veiculo.id", name="id">
 	<div class="form-group">
+		<label for="modelo" class="col-lg-2 control-label">Foto atual</label>
+		<div class="col-lg-10">
+			<img alt="" src="resources/images/{{veiculo.foto}}" width="150px">
+		</div>
+	</div>
+	<div class="form-group">
 		<label for="modelo" class="col-lg-2 control-label">Fabricante</label>
 		<div class="col-lg-10">
-			<input type="text" class="form-control" ng-model="veiculo.fabricante" value="{{veiculo.fabricante}}"
+			<input type="text" class="form-control" required="required" ng-model="veiculo.fabricante" value="{{veiculo.fabricante}}"
 				name="fabricante" placeholder="fabricante">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="modelo" class="col-lg-2 control-label">Modelo</label>
 		<div class="col-lg-10">
-			<input type="text" class="form-control" id="modelo" value={{veiculo.modelo}}"
+			<input type="text" class="form-control" id="modelo" value={{veiculo.modelo}}" required="required"
 				ng-model="veiculo.modelo" name="modelo" placeholder="modelo">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="ano" class="col-lg-2 control-label">Ano</label>
 		<div class="col-lg-6">
-			<input type="text" class="form-control" id="ano" value="{{veiculo.ano}}"
+			<input type="number" class="form-control" id="ano" value="{{veiculo.ano}}" required="required"
 				ng-model="veiculo.ano" name="ano" placeholder="ano">
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="ano" class="col-lg-2 control-label">Foto</label>
+		<label for="ano" class="col-lg-2 control-label">Trocar Foto</label>
 		<div class="col-lg-6">
-			<input type="file" id="ano" data-rule-required="true" id="file"  accept=".jpg,.png,.jpeg"
-				ng-model="veiculo.file" name="file" placeholder="ano">
+			<input type="file" ng-model="veiculo.image" name="image" base-sixty-four-input>
 		</div>
 	</div>
 	<button type="submit" class="btn btn-primary">Save</button>

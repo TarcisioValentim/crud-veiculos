@@ -4,19 +4,19 @@
 <table class="table">
 	<thead>
 		<tr>
+			<th>Foto</th>
 			<th>Fabricante</th>
 			<th>Modelo</th>
 			<th>Ano</th>
-			<th>Foto</th>
 			<td colspan="2"></td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="veiculo in veiculos">
+			<td><img alt="" src="resources/images/{{veiculo.foto }}" width="150px"></td>
 			<td>{{veiculo.fabricante}}</td>
 			<td>{{veiculo.modelo}}</td>
 			<td>{{veiculo.ano}}</td>
-			<td>{{veiculo.foto}}</td>
 			<td><a href="#edit/{{veiculo.id}}">Editar</a></td>
 			<td><a href="" ng-click="remover(veiculo.id)">Deletar</a></td>
 		</tr>

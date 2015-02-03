@@ -18,12 +18,15 @@ import javax.validation.constraints.Null;
 
 import org.springframework.validation.FieldError;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author Adriano S. Bonfiglio
  *
  */
 @Entity
 @Table(name = "veiculo")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Veiculo implements Serializable {
 
 	/**
@@ -45,17 +48,19 @@ public class Veiculo implements Serializable {
 	@Column(name = "ano", length = 4, nullable = false)
 	@NotNull(message="O ano não pode ser nulo")
 	private Long ano;
-	@Column(name = "foto", length = 45)
-	@Null
+	@Column(name = "foto", length = 45, nullable=true)
 	private String foto;
 	
 	@Transient
 	Map<String, String> errors = new HashMap<String, String>();
-
+	
+	@Transient
+	Map<String, String> file;
+	
 	public Integer getId() {
 		return id;
 	}
-
+	
 	public void setFabricante(String fabricante) {
 		this.fabricante = fabricante;
 	}
@@ -101,6 +106,14 @@ public class Veiculo implements Serializable {
 	
 	public Map<String, String> getErrors() {
 		return errors;
+	}
+	
+	public void setFile(Map<String, String> file) {
+		this.file = file;
+	}
+	
+	public Map<String, String> getFile() {
+		return file;
 	}
 
 	

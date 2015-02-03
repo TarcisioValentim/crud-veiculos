@@ -1,4 +1,4 @@
-var app = angular.module("app", ["ngRoute", "controllers"]);
+var app = angular.module("app", ["ngRoute", "controllers", 'naif.base64']);
 
 app.config(function($routeProvider) {
 	$routeProvider
@@ -21,4 +21,17 @@ app.config(function($routeProvider) {
 			//templateUrl: "/app/views/body.html",
 			controller: "MainController"
 		});
+});
+
+app.directive('fileUpload', function () {
+    return {
+        scope: true,        //create a new scope
+        link: function (scope, el, attrs) {
+            el.bind('change', function (event) {
+                var file = event.target.file;
+                //iterate files since 'multiple' may be specified on the element
+                scope.$emit("fileSelected", { file: file });
+            });
+        }
+    };
 });
