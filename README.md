@@ -7,6 +7,6 @@ Action  | Url
 ------------- | -------------
 Find One (GET)  | /crud-veiculos/veiculos/{id}
 List All (GET)  | /crud-veiculos/veiculos
-Save (POST) | /crud-veiculos/save
-Update (POST) | /crud-veiculos/update/{id}
-Delete (DELETE) | /crud-veiculos/delete/{id}
+Save (POST) | /crud-veiculos/veiculos/save
+Update (POST) | /crud-veiculos/veiculos/update/{id}
+Delete (DELETE) | /crud-veiculos/veiculos/delete/{id}
